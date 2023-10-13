@@ -912,3 +912,35 @@ func (s *marginTestSuite) TestIsolatedMarginTransferService() {
 	e := &TransactionResponse{TranID: 100000001}
 	s.r().Equal(res, e)
 }
+
+func (s *marginTestSuite) TestGetMarginIsolateadPair() {
+	data := []byte(`{
+		"id":323355778339572400,
+		"symbol":"BTCUSDT",
+		"base":"BTC",
+		"quote":"USDT",
+		"isMarginTrade":true,
+		"isBuyAllowed":true,
+		"isSellAllowed":true
+	}`)
+	s.mockDo(data, nil)
+	defer s.assertDo()
+	symbol := "BTCUSDT"
+	s.assertReq(func(r *request) {
+		e := newRequest()
+		e.setParam("symbol", symbol)
+		s.assertRequestEqual(e, r)
+	})
+	res, err := s.client.NewGetIsolatedMarginPairService().Symbol(symbol).Do(newContext())
+	s.r().NoError(err)
+	e := &MarginPair{
+		ID:            323355778339572400,
+		Symbol:        symbol,
+		Base:          "BTC",
+		Quote:         "USDT",
+		IsMarginTrade: true,
+		IsBuyAllowed:  true,
+		IsSellAllowed: true,
+	}
+	s.assertMarginPairEqual(e, res)
+}
