@@ -1129,3 +1129,35 @@ func (s *IsolatedMarginTransferService) Do(ctx context.Context, opts ...RequestO
 	}
 	return res, nil
 }
+
+// GetIsolatedMarginPairService get isolated margin pair info
+type GetIsolatedMarginPairService struct {
+	c      *Client
+	symbol string
+}
+
+// Symbol set symbol
+func (s *GetIsolatedMarginPairService) Symbol(symbol string) *GetIsolatedMarginPairService {
+	s.symbol = symbol
+	return s
+}
+
+// Do send request
+func (s *GetIsolatedMarginPairService) Do(ctx context.Context, opts ...RequestOption) (res *MarginPair, err error) {
+	r := &request{
+		method:   http.MethodGet,
+		endpoint: "/sapi/v1/margin/isolated/pair",
+		secType:  secTypeAPIKey,
+	}
+	r.setParam("symbol", s.symbol)
+	data, err := s.c.callAPI(ctx, r, opts...)
+	if err != nil {
+		return nil, err
+	}
+	res = new(MarginPair)
+	err = json.Unmarshal(data, res)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}

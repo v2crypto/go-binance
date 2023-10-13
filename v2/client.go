@@ -730,6 +730,11 @@ func (c *Client) NewGetMarginAllPairsService() *GetMarginAllPairsService {
 	return &GetMarginAllPairsService{c: c}
 }
 
+// NewGetMarginPairService init get isolated margin pair service
+func (c *Client) NewGetIsolatedMarginPairService() *GetIsolatedMarginPairService {
+	return &GetIsolatedMarginPairService{c: c}
+}
+
 // NewGetMarginPriceIndexService init get margin price index service
 func (c *Client) NewGetMarginPriceIndexService() *GetMarginPriceIndexService {
 	return &GetMarginPriceIndexService{c: c}
