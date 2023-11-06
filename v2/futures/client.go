@@ -541,6 +541,11 @@ func (c *Client) NewPremiumIndexKlinesService() *PremiumIndexKlinesService {
 	return &PremiumIndexKlinesService{c: c}
 }
 
+// NewFundingInfoService init funding info service
+func (c *Client) NewFundingInfoService() *FundingInfoService {
+	return &FundingInfoService{c: c}
+}
+
 // NewFundingRateService init funding rate service
 func (c *Client) NewFundingRateService() *FundingRateService {
 	return &FundingRateService{c: c}
